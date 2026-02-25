@@ -58,6 +58,16 @@ Focus is on solving repetitive deal discovery → triage → save workflow fast,
     - /api/enrich
     - Server-side scraping + LLM extraction
     - Environment variables (secure keys)
+
+# MVP data layer:
+
+| Layer              | Type         | Storage       |
+|--------------------|--------------|---------------|
+| Companies         | Mock JSON   | File         |
+| Lists             | User state  | localStorage |
+| Notes             | User state  | localStorage |
+| Enrichment cache  | Optional    | localStorage |
+
       
 
 
