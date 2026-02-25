@@ -68,6 +68,30 @@ Focus is on solving repetitive deal discovery → triage → save workflow fast,
 | Notes             | User state  | localStorage |
 | Enrichment cache  | Optional    | localStorage |
 
+# Folder Architecture:
+
+```mermaid
+flowchart LR
+    src[src/] --> app[app/]
+    src --> components[components/]
+    src --> lib[lib/]
+    src --> data[data/]
+    src --> types[types/]
+
+    app --> companies[companies/]
+    app --> lists[lists/]
+    app --> saved[saved/]
+    app --> api[api/]
+    api --> enrich[enrich/]
+
+    lib --> storage[storage.ts]
+    lib --> enrichment[enrichment.ts]
+
+    style src fill:#d9f0ff,stroke:#0066cc
+    style app fill:#e6f3ff,stroke:#1890ff
+    style lib fill:#fff0e6,stroke:#cc6600
+```
+
       
 
 
