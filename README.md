@@ -45,6 +45,19 @@ Focus is on solving repetitive deal discovery → triage → save workflow fast,
    Every displayed fact shows its source (badge/link): Crunchbase, LinkedIn, manual entry, X post, etc.  
  
 9. **Deployable app**  
-   Easy one-command or one-click deploy (Vercel, Railway, Render, Fly.io preferred).  
+   Easy one-command or one-click deploy (Vercel, Railway, Render, Fly.io preferred).
+
+# System Architecture 
+
+- **Frontend:**
+    - Next.js App Router
+    - Tailwind UI
+    - Client state + localStorage
+ 
+- **Backend (inside Next.js):**
+    - /api/enrich
+    - Server-side scraping + LLM extraction
+    - Environment variables (secure keys)
+      
 
 
