@@ -37,20 +37,30 @@ export default function CompaniesPage() {
     );
 
     return (
-        <div className="space-y-6">
-            <h1 className="text-2xl font-bold">Companies</h1>
+        <div className="max-w-6xl mx-auto space-y-8">
 
-            {/* Filters */}
-            <div className="flex gap-4">
+            {/* Header */}
+            <div>
+                <h1 className="text-3xl font-semibold tracking-tight">
+                    Company Discovery
+                </h1>
+                <p className="text-gray-500 mt-1">
+                    Search and explore companies matching your thesis
+                </p>
+            </div>
+
+            {/* Filters Card */}
+            <div className="bg-white border rounded-xl p-5 shadow-sm flex flex-wrap gap-4">
+
                 <input
                     type="text"
-                    placeholder="Search by name"
+                    placeholder="Search companies..."
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);
                         setPage(1);
                     }}
-                    className="border p-2 rounded"
+                    className="border rounded-lg px-3 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-black"
                 />
 
                 <select
@@ -59,13 +69,11 @@ export default function CompaniesPage() {
                         setIndustryFilter(e.target.value);
                         setPage(1);
                     }}
-                    className="border p-2 rounded"
+                    className="border rounded-lg px-3 py-2"
                 >
                     <option value="">All Industries</option>
                     {industries.map((industry) => (
-                        <option key={industry} value={industry}>
-                            {industry}
-                        </option>
+                        <option key={industry}>{industry}</option>
                     ))}
                 </select>
 
@@ -75,64 +83,81 @@ export default function CompaniesPage() {
                         setLocationFilter(e.target.value);
                         setPage(1);
                     }}
-                    className="border p-2 rounded"
+                    className="border rounded-lg px-3 py-2"
                 >
                     <option value="">All Locations</option>
                     {locations.map((location) => (
-                        <option key={location} value={location}>
-                            {location}
-                        </option>
+                        <option key={location}>{location}</option>
                     ))}
                 </select>
+
             </div>
 
-            {/* Companies Table */}
-            <table className="w-full border-collapse border">
-                <thead>
-                    <tr>
-                        <th className="border p-2 text-left">Name</th>
-                        <th className="border p-2 text-left">Industry</th>
-                        <th className="border p-2 text-left">Location</th>
-                    </tr>
-                </thead>
+            {/* Table Card */}
+            <div className="bg-white border rounded-xl shadow-sm overflow-hidden">
 
-                <tbody>
-                    {paginated.map((company: Company) => (
-                        <tr key={company.id}>
-                            <td className="border p-2 text-blue-600 underline">
-                                <Link href={`/companies/${company.id}`}>
-                                    {company.name}
-                                </Link>
-                            </td>
-                            <td className="border p-2">{company.industry}</td>
-                            <td className="border p-2">{company.location}</td>
+                <table className="w-full">
+                    <thead className="bg-gray-50 text-sm">
+                        <tr>
+                            <th className="text-left px-4 py-3">Company</th>
+                            <th className="text-left px-4 py-3">Industry</th>
+                            <th className="text-left px-4 py-3">Location</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
 
-            {/* Pagination Controls */}
-            <div className="flex justify-between">
+                    <tbody>
+                        {paginated.map((company) => (
+                            <tr
+                                key={company.id}
+                                className="border-t hover:bg-gray-50 transition"
+                            >
+                                <td className="px-4 py-3 font-medium text-blue-600">
+                                    <Link href={`/companies/${company.id}`}>
+                                        {company.name}
+                                    </Link>
+                                </td>
+
+                                <td className="px-4 py-3">
+                                    <span className="px-2 py-1 text-xs bg-gray-100 rounded-md">
+                                        {company.industry}
+                                    </span>
+                                </td>
+
+                                <td className="px-4 py-3 text-gray-600">
+                                    {company.location}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+            </div>
+
+            {/* Pagination */}
+            <div className="flex items-center justify-between">
+
                 <button
                     disabled={page <= 1}
                     onClick={() => setPage(page - 1)}
-                    className="px-3 py-1 border rounded disabled:opacity-50"
+                    className="px-4 py-2 border rounded-lg hover:bg-gray-100 disabled:opacity-40"
                 >
                     Previous
                 </button>
-                <span>
+
+                <span className="text-sm text-gray-500">
                     Page {page} of {totalPages}
                 </span>
 
                 <button
                     disabled={page >= totalPages}
                     onClick={() => setPage(page + 1)}
-                    className="px-3 py-1 border rounded disabled:opacity-50"
+                    className="px-4 py-2 border rounded-lg hover:bg-gray-100 disabled:opacity-40"
                 >
                     Next
                 </button>
+
             </div>
+
         </div>
     );
 }
-
