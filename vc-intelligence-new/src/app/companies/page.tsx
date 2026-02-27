@@ -46,6 +46,11 @@ export default function CompaniesPage() {
     const [page, setPage] = useState(1);
     const perPage = 3;
     const [savedSearchName, setSavedSearchName] = useState("");
+    const [sortField, setSortField] = useState<'name' | 'founded' | 'signalCount'>('name');
+    const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
+    const pageSize = 10;
+
+    // ... sort + slice logic on your companies array ...
 
     const filtered = companyData.filter((c) => {
         const matchesSearch = c.name.toLowerCase().includes(search.toLowerCase());
