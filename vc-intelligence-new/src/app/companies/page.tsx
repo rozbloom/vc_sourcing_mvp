@@ -28,6 +28,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // optional: npx shadcn@latest add lucide (or just use text)
 
+export const dynamic = 'force-dynamic';
 export default function CompaniesPage() {
     const searchParams = useSearchParams();
     const [search, setSearch] = useState(
