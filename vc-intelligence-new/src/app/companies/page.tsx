@@ -37,6 +37,7 @@ export default function CompaniesPage() {
     const [locationFilter, setLocationFilter] = useState("all");
     const [page, setPage] = useState(1);
     const perPage = 3;
+    const [savedSearchName, setSavedSearchName] = useState("");
 
     const filtered = companyData.filter((c) => {
         const matchesSearch = c.name.toLowerCase().includes(search.toLowerCase());
@@ -52,6 +53,30 @@ export default function CompaniesPage() {
 
     const industries = Array.from(new Set(companyData.map((c) => c.industry)));
     const locations = Array.from(new Set(companyData.map((c) => c.location)));
+
+    function saveSearch() {
+        if (!savedSearchName.trim()) return;
+
+        const existing = JSON.parse(
+            localStorage.getItem("vc_saved_searches") || "[]"
+        );
+
+        const newSearch = {
+            id: crypto.randomUUID(),
+            name: savedSearchName,
+            search,
+            industry,
+        };
+
+        const updated = [...existing, newSearch];
+
+        localStorage.setItem(
+            "vc_saved_searches",
+            JSON.stringify(updated)
+        );
+
+        setSavedSearchName("");
+    }
 
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 space-y-10">
@@ -79,6 +104,22 @@ export default function CompaniesPage() {
                                 }}
                                 className="max-w-md"
                             />
+                        </div>
+                        <div className="flex gap-2">
+
+                            <Input
+                                placeholder="Save search name"
+                                value={savedSearchName}
+                                onChange={(e) => setSavedSearchName(e.target.value)}
+                            />
+
+                            <Button
+                                variant="outline"
+                                onClick={saveSearch}
+                            >
+                                Save Search
+                            </Button>
+
                         </div>
 
                         <Select
