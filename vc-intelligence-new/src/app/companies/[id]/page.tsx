@@ -93,12 +93,13 @@ export default function CompanyProfile({
                     {lists.map((list) => (
                         <Button
                             key={list.id}
-                            variant="outline"
+                            // match the default button color used by Save Note/Company
+                            variant="default"
                             size="sm"
                             title={`Add to ${list.name}`}
                             onClick={() => addToList(list.id)}
                         >
-                            {list.name}
+                            Add to {list.name}
                         </Button>
                     ))}
                 </CardContent>
