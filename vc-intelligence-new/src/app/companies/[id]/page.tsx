@@ -23,9 +23,14 @@ export default function CompanyProfile({
     // create a non-nullable alias so TypeScript can infer correctly in
     // closures (Effect callback, handlers, etc.)
     const c = company;
+    const [lists, setLists] = useState<any[]>([]);
 
     useEffect(() => {
         // use `c` instead of `company` to satisfy the compiler
+        const storedLists = JSON.parse(
+            localStorage.getItem("vc_lists") || "[]"
+        );
+        setLists(storedLists);
         const storedNote = localStorage.getItem(`note-${c.id}`);
         if (storedNote) setNote(storedNote);
 
@@ -58,6 +63,19 @@ export default function CompanyProfile({
 
         localStorage.setItem("savedCompanies", JSON.stringify(updated));
     }
+    function addToList(listId: string) {
+        const updated = lists.map((list) => {
+            if (list.id === listId) {
+                if (!list.companyIds.includes(c.id)) {
+                    list.companyIds.push(c.id);
+                }
+            }
+            return list;
+        });
+
+        localStorage.setItem("vc_lists", JSON.stringify(updated));
+        setLists(updated);
+    }
 
     return (
         <div className="max-w-5xl mx-auto space-y-6">
@@ -72,12 +90,17 @@ export default function CompanyProfile({
 
                     <p>{c.location}</p>
 
-                    <Button
-                        variant={saved ? "secondary" : "default"}
-                        onClick={toggleSave}
-                    >
-                        {saved ? "Saved" : "Save Company"}
-                    </Button>
+                    {lists.map((list) => (
+                        <Button
+                            key={list.id}
+                            variant="outline"
+                            size="sm"
+                            title={`Add to ${list.name}`}
+                            onClick={() => addToList(list.id)}
+                        >
+                            {list.name}
+                        </Button>
+                    ))}
                 </CardContent>
             </Card>
 
