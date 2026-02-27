@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { companies } from "../../../data/companies";
 
 import { Button } from "@/components/ui/button";
@@ -11,15 +11,15 @@ import { Badge } from "@/components/ui/badge";
 export default function CompanyProfile({
     params,
 }: {
-    params: { id: string };
+    params: { id: string } | Promise<{ id: string }>;
 }) {
-    const company = companies.find((c) => c.id === params.id);
-
+    // `params` is asynchronous in client components; unwrap with React.use.
+    const { id } = React.use<{ id: string }>(params as any);
+    const company = companies.find((c) => c.id === id);
+    if (!company) return null;
+    // state needed for notes and saved flag
     const [note, setNote] = useState("");
     const [saved, setSaved] = useState(false);
-
-    // early return guarantees `company` is defined for all subsequent logic
-    if (!company) return null;
     // create a non-nullable alias so TypeScript can infer correctly in
     // closures (Effect callback, handlers, etc.)
     const c = company;
