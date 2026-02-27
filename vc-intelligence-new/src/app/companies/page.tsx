@@ -6,7 +6,7 @@ import { companies as companyData } from "../../data/companies";
 
 // shadcn/ui imports – run these first:
 // npx shadcn@latest add card input select table badge button
-
+import { useSearchParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -29,7 +29,15 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // optional: npx shadcn@latest add lucide (or just use text)
 
 export default function CompaniesPage() {
-    const [search, setSearch] = useState("");
+    const searchParams = useSearchParams();
+    const [search, setSearch] = useState(
+        searchParams.get("search") || ""
+    );
+
+    const [industry, setIndustry] = useState(
+        searchParams.get("industry") || "all"
+    );
+
     // we use "all" as a sentinel value instead of an empty string because
     // <Select.Item> disallows empty values.  When the filter is "all" we
     // simply don't apply the corresponding restriction.
