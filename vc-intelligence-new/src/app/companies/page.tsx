@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { companies as companyData, Company } from "../../data/companies";
+import { companies as companyData } from "../../data/companies";
 
 // shadcn/ui imports – run these first:
 // npx shadcn@latest add card input select table badge button
@@ -30,15 +30,20 @@ import { ChevronLeft, ChevronRight } from "lucide-react"; // optional: npx shadc
 
 export default function CompaniesPage() {
     const [search, setSearch] = useState("");
-    const [industryFilter, setIndustryFilter] = useState("");
-    const [locationFilter, setLocationFilter] = useState("");
+    // we use "all" as a sentinel value instead of an empty string because
+    // <Select.Item> disallows empty values.  When the filter is "all" we
+    // simply don't apply the corresponding restriction.
+    const [industryFilter, setIndustryFilter] = useState("all");
+    const [locationFilter, setLocationFilter] = useState("all");
     const [page, setPage] = useState(1);
     const perPage = 3;
 
     const filtered = companyData.filter((c) => {
         const matchesSearch = c.name.toLowerCase().includes(search.toLowerCase());
-        const matchesIndustry = industryFilter ? c.industry === industryFilter : true;
-        const matchesLocation = locationFilter ? c.location === locationFilter : true;
+        const matchesIndustry =
+            industryFilter === "all" ? true : c.industry === industryFilter;
+        const matchesLocation =
+            locationFilter === "all" ? true : c.location === locationFilter;
         return matchesSearch && matchesIndustry && matchesLocation;
     });
 
@@ -87,7 +92,8 @@ export default function CompaniesPage() {
                                 <SelectValue placeholder="All Industries" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="">All Industries</SelectItem>
+                                {/* sentinel value instead of empty string */}
+                                <SelectItem value="all">All Industries</SelectItem>
                                 {industries.map((industry) => (
                                     <SelectItem key={industry} value={industry}>
                                         {industry}
@@ -107,7 +113,7 @@ export default function CompaniesPage() {
                                 <SelectValue placeholder="All Locations" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="">All Locations</SelectItem>
+                                <SelectItem value="all">All Locations</SelectItem>
                                 {locations.map((location) => (
                                     <SelectItem key={location} value={location}>
                                         {location}
