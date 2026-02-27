@@ -1,6 +1,61 @@
 # vc_sourcing_mvp
 MVP of a VC sourcing tool inspired by Harmonic.ai:VC Intelligence Interface + Live Enrichment a web app that lets users discover/mock-search companies, view profiles, and enrich them with real-time AI-scraped data from public websites.
 
+# VC Intelligence Mini Platform
+
+## Setup
+
+Install dependencies
+
+npm install
+
+Run dev server
+
+npm run dev
+
+---
+
+## Environment Variables
+
+Create:.env.local
+Add:HUGGINGFACE_API_KEY=your_key_here
+
+Get free key:
+https://huggingface.co/settings/tokens
+
+---
+
+## Features
+
+- Company discovery interface
+- Filters + sortable results table
+- Company profile workflow
+- Save to lists
+- Saved searches
+- Live enrichment (server-side)
+- Signals extraction
+- Sources with timestamps
+
+---
+
+## Architecture
+
+Next.js App Router
+
+Server:
+- /api/enrich → website scraping + AI extraction
+
+Client:
+- companies discovery UI
+- profile workflow
+
+---
+
+## Deployment
+Recommended:Vercel
+Add env variables in dashboard.
+Deploy.
+
 core workflow:
 ```mermaid
 flowchart TD
